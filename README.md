@@ -1,24 +1,7 @@
-# README
+# Antrian Using Action Cable ROR example
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+![Alt Text](ss.gif)
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+**How to start** <br>
+1.install dependency ```bundle install``` <br>
+2.Jalankan Server ```rails s```
