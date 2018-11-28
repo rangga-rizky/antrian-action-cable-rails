@@ -1,0 +1,46 @@
+<div class="container">
+    
+    <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Antrian Umum</h4>
+          </div>
+          <div class="card-body">
+            <h1 id="textA" class="card-title pricing-card-title">
+             <% if @ticketsA != nil -%>
+              <%= @ticketsA.text %>
+              <% else -%>
+                Belum Ada Antrian
+              <% end -%>
+            </h1>           
+          </div>
+        </div>
+
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Antrian Khusus</h4>
+          </div>
+          <div class="card-body">
+            <h1 id="textB" class="card-title pricing-card-title">
+                 <% if @ticketsB != nil -%>
+                <%= @ticketsB.text %>
+              <% else -%>
+                Belum Ada Antrian
+              <% end -%>
+            </h1>                       
+          </div>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+  
+    App.messages = App.cable.subscriptions.create('ProcessTicketsChannel', {  
+        received: function(data) {
+             return $(`#text${data.ticket_type}`).text(data.text);
+        },
+    });
+</script>
+
+

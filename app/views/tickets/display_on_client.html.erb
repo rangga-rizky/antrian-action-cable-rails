@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Antrian Umum</h4>
+          </div>
+          <div class="card-body">
+            <h1 id="texta" class="card-title pricing-card-title">
+                A<%= @ticketsA %>
+            </h1>
+           
+            <button id="btnA" type="button" class="btn btn-lg btn-block btn-outline-primary">Cetak Tiket</button>
+          </div>
+        </div>
+
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Antrian Khusus</h4>
+          </div>
+          <div class="card-body">
+            <h1 id="textb" class="card-title pricing-card-title">
+                B<%= @ticketsB %>
+            </h1>
+           
+            <button id="btnB"  type="button" class="btn btn-lg btn-block btn-outline-primary">Cetak Tiket</button>
+          </div>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+  ticketA = <%= @ticketsA %>
+  ticketB = <%= @ticketsB %>  
+
+  $("#btnA").click(function(){
+    printTicket("A",ticketA)
+  });
+
+   $("#btnB").click(function(){
+    printTicket("B",ticketB)
+  });
+
+  function printTicket(type,order){
+    $.post("/tickets",
+    {
+        ticket_type: type,
+        ticket_order: order,
+        text: type+order,
+        status: "ISSUED"
+    },
+    function(data, status){
+        alert("Tiket dicetak \nStatus: " + status);
+        ticketA = data.ticketA
+        ticketB = data.ticketB        
+        $("#texta").text(`A${ticketA}`)  
+        $("#textb").text(`B${ticketB}`)
+    });
+  }
+</script>

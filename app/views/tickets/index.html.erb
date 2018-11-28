@@ -1,0 +1,61 @@
+<div class="container">
+    <table class="table">
+    <thead>
+        <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Text</th>
+        <th scope="col">Type</th>
+        <th scope="col">Created_at</th>
+        <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="tabel">
+        <% @tickets.each_with_index do |ticket,index| %>
+            <tr id="baris<%= ticket.id %>">
+                <td><%= ticket.id %></td>
+                <td><%= ticket.text %></td>
+                <td><%= ticket.ticket_type %></td>
+                <td><%= ticket.created_at %></td>
+                 <td>
+                    <button class="btn btn-success btnProcess" onclick="processTicket(<%= ticket.id %>)">Process</button>
+                </td>
+            </tr>
+        <% end %>
+    </tbody>
+    </table>
+</div>
+
+<script>
+
+  function processTicket(id){
+
+    $.ajax({
+        url: `/tickets/${id}`,
+        type: 'PUT',
+        data: {
+            status: "PROCESS"
+        },
+        success: function(response) {
+            alert("tiket diproses")            
+             $( `#baris${id}` ).remove();
+        }
+    });
+  }
+
+  App.messages = App.cable.subscriptions.create('PrintTicketsChannel', {  
+        received: function(data) {
+            return $('#tabel').append(this.renderMessage(data));
+        },
+        renderMessage: function(data) {
+            return `<tr id="baris${data.id}">
+                <td>${data.id}</td>
+                <td>${data.text}</td>
+                <td>${data.ticket_type}</td>
+                <td>${data.created_at}</td>
+                <td>
+                    <button class="btn btn-success btnProcess" onclick="processTicket(${data.id})">Process</button>
+                </td>
+            </tr>`
+        }
+    });
+</script>
